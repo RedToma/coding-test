@@ -1,41 +1,39 @@
 class Solution {
     public String solution(int[] numbers, String hand) {
-        StringBuilder sb = new StringBuilder();
-
         int left = 10;
         int right = 12;
+        StringBuilder sb = new StringBuilder();
 
-        for (int i : numbers) {
+        for (int number : numbers) {
 
-            if (i == 1 || i == 4 || i == 7) {
+            if (number == 1 || number == 4 || number == 7) {
                 sb.append("L");
-                left = i;
-            } else if (i == 3 || i == 6 || i == 9) {
+                left = number;
+            } else if (number == 3 || number == 6 || number == 9) {
                 sb.append("R");
-                right = i;
+                right = number;
             } else {
-                if (i == 0) i = 11;
+                if(number == 0) number = 11;
 
-                int leftDistance = Math.abs(i - left) / 3 + Math.abs(i - left) % 3;
-                int rightDistance = Math.abs(i - right) / 3 + Math.abs(i - right) % 3;
+                int l_distance = Math.abs(left - number) / 3 + Math.abs(left - number) % 3;
+                int r_distance = Math.abs(right - number) / 3 + Math.abs(right - number) % 3;
 
-                if (leftDistance < rightDistance) {
-                    sb.append("L");
-                    left = i;
-                } else if (leftDistance > rightDistance) {
+                if (l_distance > r_distance) {
                     sb.append("R");
-                    right = i;
+                    right = number;
+                } else if (l_distance < r_distance) {
+                    sb.append("L");
+                    left = number;
                 } else {
-                    if (hand.equals("left")) {
-                        sb.append("L");
-                        left = i;
-                    } else {
+                    if (hand.equals("right")) {
                         sb.append("R");
-                        right = i;
+                        right = number;
+                    } else {
+                        sb.append("L");
+                        left = number;
                     }
                 }
             }
-
         }
         
         return sb.toString();
