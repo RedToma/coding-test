@@ -16,9 +16,7 @@ class Solution {
         for (String command : commands) {
             if (command.equals("next")) {
                 pos_second += 10;
-                if (total_len - pos_second < 0) {
-                    pos_second = total_len;
-                }
+                if (total_len - pos_second < 0) pos_second = total_len;
             } else {
                 pos_second -= 10;
                 if (pos_second < 0) pos_second = 0;
