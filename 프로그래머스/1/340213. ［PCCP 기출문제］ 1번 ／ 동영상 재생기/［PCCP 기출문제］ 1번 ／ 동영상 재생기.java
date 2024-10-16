@@ -1,31 +1,43 @@
 class Solution {
     public String solution(String video_len, String pos, String op_start, String op_end, String[] commands) {
+        int second_pos = Integer.parseInt(pos.substring(0, 2)) * 60 + Integer.parseInt(pos.substring(3, 5));
+        int second_start = Integer.parseInt(op_start.substring(0, 2)) * 60 + Integer.parseInt(op_start.substring(3, 5));
+        int second_end = Integer.parseInt(op_end.substring(0, 2)) * 60 + Integer.parseInt(op_end.substring(3, 5));
+        int second_len = Integer.parseInt(video_len.substring(0, 2)) * 60 + Integer.parseInt(video_len.substring(3, 5));
         String answer = "";
         
-        int total_len = Integer.parseInt(video_len.split(":")[0]) * 60
-                + Integer.parseInt(video_len.split(":")[1]);
-        int pos_second  = Integer.parseInt(pos.split(":")[0]) * 60
-                + Integer.parseInt(pos.split(":")[1]);
-        int start_second  = Integer.parseInt(op_start.split(":")[0]) * 60
-                + Integer.parseInt(op_start.split(":")[1]);
-        int end_second  = Integer.parseInt(op_end.split(":")[0]) * 60
-                + Integer.parseInt(op_end.split(":")[1]);
-
-        if (pos_second >= start_second && pos_second <= end_second) pos_second = end_second;
-
         for (String command : commands) {
-            if (command.equals("next")) {
-                pos_second += 10;
-                if (total_len - pos_second < 0) pos_second = total_len;
-            } else {
-                pos_second -= 10;
-                if (pos_second < 0) pos_second = 0;
-            }
 
-            if (pos_second >= start_second && pos_second <= end_second) pos_second = end_second;
+            if (second_start <= second_pos && second_end >= second_pos) second_pos = second_end;
+
+            if (command.equals("prev")) {
+                second_pos -= 10;
+
+                if (second_pos < 0) {
+                    second_pos = 0;
+                }
+            } else {
+                second_pos += 10;
+
+                if (second_pos > second_len) {
+                    second_pos = second_len;
+                }
+            }
         }
 
-        answer = String.format("%02d:%02d", pos_second / 60, pos_second % 60);
+        if (second_start <= second_pos && second_end >= second_pos) second_pos = second_end;
+
+        if (second_pos == 0) return "00:00";
+
+        int minute = second_pos / 60;
+        int second = second_pos % 60;
+
+        if (minute < 10) answer += "0" + minute;
+        else answer += minute;
+
+        if (second < 10) answer += ":0" + second;
+        else answer += ":" + second;
+        
         
         return answer;
     }
