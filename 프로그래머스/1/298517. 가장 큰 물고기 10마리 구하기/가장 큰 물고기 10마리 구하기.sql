@@ -1,0 +1,7 @@
+-- 가장 큰 물고기 10마리 id, 길이 출력 (길이 기준 내림 같으면 id 오름)
+
+SELECT ID, LENGTH
+FROM FISH_INFO
+WHERE LENGTH IS NOT NULL
+ORDER BY LENGTH DESC, ID
+LIMIT 10
